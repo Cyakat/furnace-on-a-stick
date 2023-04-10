@@ -1,8 +1,8 @@
-package net.cyakat.furnaceonastick;
+package net.cyakat.furnaxe;
 
 import net.fabricmc.api.ClientModInitializer;
 
-public class FurnaceOnAStickClient implements ClientModInitializer {
+public class FurnAxeClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 

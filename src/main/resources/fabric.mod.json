@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "furnaceonastick",
+  "id": "furnaxe",
   "version": "${version}",
 
-  "name": "Furnace On A Stick",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Furn-Axe",
+  "description": "Smelt and cut through blocks with this hot new (pick?)axe!",
   "authors": [
     "Cyakat"
   ],
@@ -14,15 +14,15 @@
   },
 
   "license": "MIT",
-  "icon": "assets/furnaceonastick/icon.png",
+  "icon": "assets/furnaxe/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.cyakat.furnaceonastick.FurnaceOnAStick"
+      "net.cyakat.furnaxe.FurnAxe"
     ],
     "client": [
-      "net.cyakat.furnaceonastick.FurnaceOnAStickClient"
+      "net.cyakat.furnaxe.FurnAxeClient"
     ]
   },
   "mixins": [
