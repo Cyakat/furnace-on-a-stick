@@ -26,17 +26,25 @@ import net.minecraft.world.World;
 import java.util.Objects;
 import java.util.Optional;
 
-public class FurnAxeItem extends MiningToolItem {
+public class FurnAxeItem extends AxeItem {
 
     public FurnAxeItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
-        super(attackDamage, attackSpeed, material, BlockTags.AXE_MINEABLE, settings);
+        super(material, attackDamage, attackSpeed, settings);
     }
 
+    /* TODO:
+        1. Allow the player to get the wax-off achievement
+     */
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         World world = context.getWorld();
         Hand hand = context.getHand();
+
+        if (context.getPlayer().isSneaking()) {
+            return super.useOnBlock(context);
+        }
+
 
         if (!world.isClient && hand == Hand.MAIN_HAND) {
             Optional<SmeltingRecipe> recipe = world.getRecipeManager().getFirstMatch(RecipeType.SMELTING, new SimpleInventory(getItemStackOfActivatedBlock(context.getWorld().getBlockState(context.getBlockPos()))), world);
@@ -53,8 +61,6 @@ public class FurnAxeItem extends MiningToolItem {
 
                     world.setBlockState(blockPos, smeltedBlock);
                     heldItem.damage(1, playerEntity, player -> player.sendToolBreakStatus(context.getHand()));
-
-
                 }
                 else {
                     ItemEntity smeltedItem = new ItemEntity(world, blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(recipeOutputItem));
@@ -72,7 +78,7 @@ public class FurnAxeItem extends MiningToolItem {
             }
         }
 
-        return super.useOnBlock(context);
+        return ActionResult.PASS;
     }
 
     private static void dropExperience(ServerWorld world, BlockPos blockPos, int multiplier, float experience) {

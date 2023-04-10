@@ -14,7 +14,7 @@ public class ModItems {
 
 
 
-    public static Item FURN_AXE = registerItem("furn_axe", new FurnAxeItem(ToolMaterials.IRON, 6f, -3.1f, new FabricItemSettings().maxCount(1).maxDamage(500)));
+    public static Item FURN_AXE = registerItem("furn_axe", new FurnAxeItem(ToolMaterials.IRON, 6f, -3.1f, new FabricItemSettings().maxDamage(500)));
     public static Item BURNING_IRON = registerItem("burning_iron", new BurningIronItem(new FabricItemSettings()));
 
     private static Item registerItem(String name, Item item) {
