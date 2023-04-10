@@ -1,23 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "###",
-    "#C#",
-    "#L#"
+    "CBB",
+    "CBS",
+    "  S"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:cobblestone"
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "B": {
+      "item": "furnaxe:burning_iron"
     },
     "C": {
-      "item": "minecraft:coal_block"
-    },
-    "L": {
-      "tag": "minecraft:logs"
+      "item": "minecraft:coal"
     }
   },
   "result": {
-    "item": "furnaxe:furn_axe",
-    "count": 1
+    "item": "furnaxe:furn_axe"
   }
 }

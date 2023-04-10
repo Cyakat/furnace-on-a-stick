@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "group": "burning_iron",
+  "ingredient": {
+    "item": "minecraft:iron_ingot"
+  },
+  "result": "furnaxe:burning_iron"
+}

@@ -13,6 +13,8 @@ public class FurnAxe implements ModInitializer {
 	@Override
 	public void onInitialize() {
 
+
+
 		LOGGER.info("Initializing Furn-Axe :o");
 
 		ModItems.registerModItems();

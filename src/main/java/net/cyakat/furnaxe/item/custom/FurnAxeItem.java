@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.*;
@@ -12,6 +13,7 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.SmeltingRecipe;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -24,11 +26,12 @@ import net.minecraft.world.World;
 import java.util.Objects;
 import java.util.Optional;
 
-public class FurnAxeItem extends AxeItem {
+public class FurnAxeItem extends MiningToolItem {
 
     public FurnAxeItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
-        super(material, attackDamage, attackSpeed, settings);
+        super(attackDamage, attackSpeed, material, BlockTags.AXE_MINEABLE, settings);
     }
+
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
@@ -36,7 +39,7 @@ public class FurnAxeItem extends AxeItem {
         Hand hand = context.getHand();
 
         if (!world.isClient && hand == Hand.MAIN_HAND) {
-            Optional<SmeltingRecipe> recipe = world.getRecipeManager().getFirstMatch(RecipeType.SMELTING, new SimpleInventory(getItemStackOfActivatedBlock(context)), world);
+            Optional<SmeltingRecipe> recipe = world.getRecipeManager().getFirstMatch(RecipeType.SMELTING, new SimpleInventory(getItemStackOfActivatedBlock(context.getWorld().getBlockState(context.getBlockPos()))), world);
             if (recipe.isPresent()) {
                 PlayerEntity playerEntity = context.getPlayer();
                 BlockPos blockPos = context.getBlockPos();
@@ -50,7 +53,10 @@ public class FurnAxeItem extends AxeItem {
 
                     world.setBlockState(blockPos, smeltedBlock);
                     heldItem.damage(1, playerEntity, player -> player.sendToolBreakStatus(context.getHand()));
-                } else {
+
+
+                }
+                else {
                     ItemEntity smeltedItem = new ItemEntity(world, blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(recipeOutputItem));
 
                     world.breakBlock(blockPos, false);
@@ -62,6 +68,7 @@ public class FurnAxeItem extends AxeItem {
                 createParticles(world, blockPos, 20);
                 playSound(world, blockPos);
                 return ActionResult.success(true);
+
             }
         }
 
@@ -81,9 +88,9 @@ public class FurnAxeItem extends AxeItem {
             return Block.getBlockFromItem(item) != Blocks.AIR;
     }
 
-    private static ItemStack getItemStackOfActivatedBlock(ItemUsageContext context) {
+    private static ItemStack getItemStackOfActivatedBlock(BlockState blockState) {
 
-        return new ItemStack(context.getWorld().getBlockState(context.getBlockPos()).getBlock().asItem());
+        return new ItemStack(blockState.getBlock().asItem());
     }
 
     public static void createParticles(World world, BlockPos blockPos, int count) {
